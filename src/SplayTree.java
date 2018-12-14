@@ -190,14 +190,12 @@ public class SplayTree<T extends Comparable<T>> extends AbstractSet<T> implement
             final int comparison = value.compareTo(start.value);
             if (comparison == 0) {
                 return desiredNode;
-            }
-            else if (comparison < 0) {
+            } else if (comparison < 0) {
                 if ((next && start.value.compareTo(value) > 0) || (!next && start.value.compareTo(value) < 0)) {
                     return findPrevNextNode(start.left, value, start, next);
                 }
                 return findPrevNextNode(start.left, value, desiredNode, next);
-            }
-            else {
+            } else {
                 if ((next && start.value.compareTo(value) > 0) || (!next && start.value.compareTo(value) < 0)) {
                     return findPrevNextNode(start.right, value, start, next);
                 }

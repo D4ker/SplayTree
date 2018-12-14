@@ -48,7 +48,7 @@ public class SplayTreeTest {
             }
             final TreeSet<Integer> treeSet = new TreeSet<>();
             final SortedSet<Integer> splayTreeSet = createTree();
-            for (Integer element: list) {
+            for (Integer element : list) {
                 treeSet.add(element);
                 splayTreeSet.add(element);
             }
@@ -97,7 +97,7 @@ public class SplayTreeTest {
             }
             final TreeSet<Integer> treeSet = new TreeSet<>();
             final SortedSet<Integer> splayTreeSet = createTree();
-            for (Integer element: list) {
+            for (Integer element : list) {
                 treeSet.add(element);
                 splayTreeSet.add(element);
             }
@@ -146,7 +146,7 @@ public class SplayTreeTest {
             }
             final TreeSet<Integer> treeSet = new TreeSet<>();
             final SortedSet<Integer> splayTreeSet = createTree();
-            for (Integer element: list) {
+            for (Integer element : list) {
                 treeSet.add(element);
                 splayTreeSet.add(element);
             }
