@@ -266,7 +266,7 @@ public class SplayTree<T extends Comparable<T>> extends AbstractSet<T> implement
     // Метод, возвращающий подмножество дерева начиная с fromElement и заканчивая toElement
     public SortedSet<T> subSet(T fromElement, T toElement) {
         if (root == null || fromElement == null || toElement == null) throw new NoSuchElementException();
-        return new SplayTreeSet<T>(this, fromElement, toElement);
+        return new SplayTreeSet<>(this, fromElement, toElement);
     }
 
     @NotNull
@@ -274,7 +274,7 @@ public class SplayTree<T extends Comparable<T>> extends AbstractSet<T> implement
     // Метод, возвращающий подмножество дерева оканчивающимся toElement
     public SortedSet<T> headSet(T toElement) {
         if (root == null || toElement == null) throw new NoSuchElementException();
-        return new SplayTreeSet<T>(this, null, toElement);
+        return new SplayTreeSet<>(this, null, toElement);
     }
 
     @NotNull
@@ -282,7 +282,7 @@ public class SplayTree<T extends Comparable<T>> extends AbstractSet<T> implement
     // Метод, возвращающий подмножество дерева начиная с fromElement
     public SortedSet<T> tailSet(T fromElement) {
         if (root == null || fromElement == null) throw new NoSuchElementException();
-        return new SplayTreeSet<T>(this, fromElement, null);
+        return new SplayTreeSet<>(this, fromElement, null);
     }
 
     @Override

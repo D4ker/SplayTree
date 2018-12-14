@@ -114,21 +114,21 @@ public class SplayTreeSet<T extends Comparable<T>> extends AbstractSet<T> implem
     @Override
     // Метод, возвращающий подмножество дерева начиная с fromElement и заканчивая toElement
     public SortedSet<T> subSet(T fromElement, T toElement) {
-        return new SplayTreeSet<T>(tree, fromElement, toElement);
+        return new SplayTreeSet<>(tree, fromElement, toElement);
     }
 
     @NotNull
     @Override
     // Метод, возвращающий подмножество дерева оканчивающимся toElement
     public SortedSet<T> headSet(T toElement) {
-        return new SplayTreeSet<T>(tree, null, toElement);
+        return new SplayTreeSet<>(tree, null, toElement);
     }
 
     @NotNull
     @Override
     // Метод, возвращающий подмножество дерева начиная с fromElement
     public SortedSet<T> tailSet(T fromElement) {
-        return new SplayTreeSet<T>(tree, fromElement, null);
+        return new SplayTreeSet<>(tree, fromElement, null);
     }
 
     @Override
