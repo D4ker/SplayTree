@@ -11,6 +11,8 @@ public class SplayTree<T extends Comparable<T>> extends AbstractSet<T> implement
     private static class Node<T> {
         final T value;
 
+        Node<T> parent = null;
+
         Node<T> left = null;
 
         Node<T> right = null;
@@ -24,9 +26,23 @@ public class SplayTree<T extends Comparable<T>> extends AbstractSet<T> implement
 
     private int size = 0;
 
+    // Обновление поля parent у узла child
+    private void updateParent(Node<T> child, Node<T> newParent) {
+        if (child != null) child.parent = newParent;
+    }
+
+    // Обновление связи между node и его детьми
+    private void updateConnection(Node<T> node) {
+        if (node != null) {
+            updateParent(node.left, node);
+            updateParent(node.right, node);
+        }
+    }
+
     // Метод, меняющий местами родителя с ребёнком
     private void rotate(Node<T> parent, Node<T> child) {
-        final Node<T> gParent = findWithParent(root, null, parent.value).getSecond();
+        final Node<T> gParent = parent.parent;
+        child.parent = gParent;
         if (gParent != null) {
             if (gParent.left == parent) {
                 gParent.left = child;
@@ -43,13 +59,15 @@ public class SplayTree<T extends Comparable<T>> extends AbstractSet<T> implement
             parent.right = child.left;
             child.left = parent;
         }
+        updateConnection(child);
+        updateConnection(parent);
     }
 
     // Метод, поднимающий узел node в корень дерева путём использования техники zig, zig-zig и zig-zag поворотов
     private Node<T> splay(Node<T> node) {
         if (node == root) return node;
-        final Node<T> parent = findWithParent(root, null, node.value).getSecond();
-        final Node<T> gParent = findWithParent(root, null, parent.value).getSecond();
+        final Node<T> parent = node.parent;
+        final Node<T> gParent = parent.parent;
         if (gParent == null) { // zig
             rotate(parent, node);
             return node;
@@ -74,10 +92,12 @@ public class SplayTree<T extends Comparable<T>> extends AbstractSet<T> implement
         } else if (value.compareTo(root.value) < 0) {
             final Node<T> leftNode = root.left;
             root.left = null;
+            updateParent(leftNode, null);
             return new Pair<>(leftNode, root);
         } else {
             final Node<T> rightNode = root.right;
             root.right = null;
+            updateParent(rightNode, null);
             return new Pair<>(root, rightNode);
         }
     }
@@ -92,22 +112,23 @@ public class SplayTree<T extends Comparable<T>> extends AbstractSet<T> implement
         root = new Node<>(value);
         root.left = leftTree;
         root.right = rightTree;
+        updateConnection(root);
         size++;
         return true;
     }
 
     // Метод, обрабатывающий удаление узла из дерева
-    private void merge(Node<T> left, Node<T> right) {
-        if (right == null) {
-            root = left;
+    private void merge(Node<T> leftTree, Node<T> rightTree) {
+        if (rightTree == null) {
+            root = leftTree;
             return;
         }
-        if (left == null) {
-            root = right;
+        if (leftTree == null) {
+            root = rightTree;
             return;
         }
-        find(right, left.value);
-        root.left = left;
+        find(rightTree, leftTree.value);
+        root.left = leftTree;
     }
 
     @Override
@@ -119,6 +140,8 @@ public class SplayTree<T extends Comparable<T>> extends AbstractSet<T> implement
         find(value);
         if (value.compareTo(root.value) != 0) return false;
         merge(root.left, root.right);
+        updateConnection(root);
+        updateParent(root, null);
         size--;
         return true;
     }
@@ -149,22 +172,6 @@ public class SplayTree<T extends Comparable<T>> extends AbstractSet<T> implement
         } else {
             if (start.right == null) return splay(start);
             return find(start.right, value);
-        }
-    }
-
-    // Поиск узла и его родителя
-    private Pair<Node<T>, Node<T>> findWithParent(Node<T> start, Node<T> parent, T value) {
-        if (start == null) return null;
-        final int comparison = value.compareTo(start.value);
-        final Pair<Node<T>, Node<T>> pair = new Pair<>(start, parent);
-        if (comparison == 0) {
-            return pair;
-        } else if (comparison < 0) {
-            if (start.left == null) return pair;
-            return findWithParent(start.left, start, value);
-        } else {
-            if (start.right == null) return pair;
-            return findWithParent(start.right, start, value);
         }
     }
 
